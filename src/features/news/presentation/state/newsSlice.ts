@@ -5,6 +5,8 @@ import { GetNewsUseCase } from '../../domain/usecases/GetNewsUseCase';
 import { GetNewsDetailUseCase } from '../../domain/usecases/GetNewsDetailUseCase';
 import { SearchNewsUseCase } from '../../domain/usecases/SearchNewsUseCase';
 
+const PAGE_SIZE = 20;
+
 const newsRepository = new NewsRepositoryImpl();
 const getNewsUseCase = new GetNewsUseCase(newsRepository);
 const getNewsDetailUseCase = new GetNewsDetailUseCase(newsRepository);
@@ -115,7 +117,7 @@ const newsSlice = createSlice({
           state.articles = [...state.articles, ...action.payload];
         }
         state.currentPage = page;
-        state.hasMore = action.payload.length === 20;
+        state.hasMore = action.payload.length === PAGE_SIZE;
       })
       .addCase(fetchNews.rejected, (state, action) => {
         state.loading = false;

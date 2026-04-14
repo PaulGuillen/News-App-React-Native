@@ -3,6 +3,10 @@ import { db } from '../../../../config/firebase';
 import { newsApiClient } from '../../../../shared/services/api/apiClient';
 import { ENV } from '../../../../config/env';
 
+const NEWS_API_KEY_PLACEHOLDER = 'YOUR_NEWS_API_KEY';
+const NEWS_PAGE_SIZE = 20;
+const FIRESTORE_NEWS_COLLECTION = 'news';
+
 export interface NewsArticleDTO {
   source?: { id: string | null; name: string };
   author?: string | null;
@@ -35,9 +39,9 @@ export interface FirestoreArticleDTO {
 
 export const fetchTopHeadlines = async (category = 'general', page = 1): Promise<NewsArticleDTO[] | FirestoreArticleDTO[]> => {
   try {
-    if (ENV.newsApiKey && ENV.newsApiKey !== 'YOUR_NEWS_API_KEY') {
+    if (ENV.newsApiKey && ENV.newsApiKey !== NEWS_API_KEY_PLACEHOLDER) {
       const data = await newsApiClient.get<NewsApiResponse>('/top-headlines', {
-        params: { country: 'us', category, page, pageSize: 20, apiKey: ENV.newsApiKey },
+        params: { country: 'us', category, page, pageSize: NEWS_PAGE_SIZE, apiKey: ENV.newsApiKey },
       });
       return data.articles;
     }
@@ -49,10 +53,10 @@ export const fetchTopHeadlines = async (category = 'general', page = 1): Promise
 
 export const fetchFromFirestore = async (category?: string): Promise<FirestoreArticleDTO[]> => {
   try {
-    const newsRef = collection(db, 'news');
+    const newsRef = collection(db, FIRESTORE_NEWS_COLLECTION);
     const q = category && category !== 'general'
-      ? query(newsRef, where('category', '==', category), orderBy('publishedAt', 'desc'), limit(20))
-      : query(newsRef, orderBy('publishedAt', 'desc'), limit(20));
+      ? query(newsRef, where('category', '==', category), orderBy('publishedAt', 'desc'), limit(NEWS_PAGE_SIZE))
+      : query(newsRef, orderBy('publishedAt', 'desc'), limit(NEWS_PAGE_SIZE));
     const snapshot = await getDocs(q);
     return snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as FirestoreArticleDTO));
   } catch {
@@ -62,7 +66,7 @@ export const fetchFromFirestore = async (category?: string): Promise<FirestoreAr
 
 export const fetchArticleById = async (id: string): Promise<FirestoreArticleDTO | null> => {
   try {
-    const docRef = doc(db, 'news', id);
+    const docRef = doc(db, FIRESTORE_NEWS_COLLECTION, id);
     const snapshot = await getDoc(docRef);
     if (snapshot.exists()) {
       return { id: snapshot.id, ...snapshot.data() } as FirestoreArticleDTO;
@@ -75,9 +79,9 @@ export const fetchArticleById = async (id: string): Promise<FirestoreArticleDTO 
 
 export const searchNews = async (queryStr: string): Promise<NewsArticleDTO[]> => {
   try {
-    if (ENV.newsApiKey && ENV.newsApiKey !== 'YOUR_NEWS_API_KEY') {
+    if (ENV.newsApiKey && ENV.newsApiKey !== NEWS_API_KEY_PLACEHOLDER) {
       const data = await newsApiClient.get<NewsApiResponse>('/everything', {
-        params: { q: queryStr, sortBy: 'publishedAt', pageSize: 20, apiKey: ENV.newsApiKey },
+        params: { q: queryStr, sortBy: 'publishedAt', pageSize: NEWS_PAGE_SIZE, apiKey: ENV.newsApiKey },
       });
       return data.articles;
     }

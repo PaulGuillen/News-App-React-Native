@@ -45,7 +45,7 @@ export const LoginScreen: React.FC = () => {
       setEmailError('');
     }
     if (!isValidPassword(password)) {
-      setPasswordError('Password must be at least 6 characters');
+      setPasswordError('Password must be at least 8 characters and include uppercase, lowercase, and a number');
       valid = false;
     } else {
       setPasswordError('');

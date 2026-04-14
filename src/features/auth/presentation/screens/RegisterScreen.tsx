@@ -44,7 +44,7 @@ export const RegisterScreen: React.FC = () => {
     let valid = true;
     if (!isNotEmpty(name)) { setNameError('Name is required'); valid = false; } else { setNameError(''); }
     if (!isValidEmail(email)) { setEmailError('Please enter a valid email'); valid = false; } else { setEmailError(''); }
-    if (!isValidPassword(password)) { setPasswordError('Password must be at least 6 characters'); valid = false; } else { setPasswordError(''); }
+    if (!isValidPassword(password)) { setPasswordError('Password must be at least 8 characters with uppercase, lowercase, and a number'); valid = false; } else { setPasswordError(''); }
     if (password !== confirmPassword) { setConfirmPasswordError('Passwords do not match'); valid = false; } else { setConfirmPasswordError(''); }
     return valid;
   };

@@ -13,6 +13,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ScreenContainer } from '../../../../shared/components/ScreenContainer';
 import { EmptyState } from '../../../../shared/components/EmptyState';
 import { NewsCard } from '../components/NewsCard';
+
+const LOAD_MORE_THRESHOLD = 0.5;
 import { SkeletonList } from '../components/SkeletonCard';
 import { useNews } from '../hooks/useNews';
 import { useAuth } from '../../../auth/presentation/hooks/useAuth';
@@ -171,7 +173,7 @@ export const NewsListScreen: React.FC = () => {
           <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={Colors.primary} />
         }
         onEndReached={loadMore}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={LOAD_MORE_THRESHOLD}
         showsVerticalScrollIndicator={false}
       />
     </ScreenContainer>

@@ -1,13 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { isDev } from '../../../config/env';
 
+const REQUEST_TIMEOUT_MS = 10000;
+
 class ApiClient {
   private client: AxiosInstance;
 
   constructor(baseURL: string) {
     this.client = axios.create({
       baseURL,
-      timeout: 10000,
+      timeout: REQUEST_TIMEOUT_MS,
       headers: { 'Content-Type': 'application/json' },
     });
 
