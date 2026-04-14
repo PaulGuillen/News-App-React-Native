@@ -3,13 +3,16 @@ import { NewsArticle } from '../../domain/models/NewsArticle';
 import { fetchTopHeadlines, fetchArticleById, searchNews, NewsArticleDTO, FirestoreArticleDTO } from '../api/newsApi';
 import { mapApiArticleToEntity, mapFirestoreArticleToEntity } from '../mappers/newsMapper';
 
+const isFirestoreArticle = (article: NewsArticleDTO | FirestoreArticleDTO): article is FirestoreArticleDTO => {
+  return 'id' in article && typeof (article as FirestoreArticleDTO).id === 'string';
+};
+
 export class NewsRepositoryImpl implements INewsRepository {
   async getTopHeadlines(category = 'general', page = 1): Promise<NewsArticle[]> {
     const articles = await fetchTopHeadlines(category, page);
     if (articles.length === 0) return [];
 
-    // Check if these are Firestore DTOs (have 'id' field) or API DTOs
-    if ('id' in articles[0]) {
+    if (isFirestoreArticle(articles[0])) {
       return (articles as FirestoreArticleDTO[]).map(mapFirestoreArticleToEntity);
     }
     return (articles as NewsArticleDTO[]).map((article, index) =>

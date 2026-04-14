@@ -46,8 +46,7 @@ export const NewsListScreen: React.FC = () => {
   useEffect(() => {
     loadNews();
     analyticsService.logScreenView('NewsList');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loadNews]);
 
   const handleArticlePress = useCallback((article: NewsArticle) => {
     navigation.navigate('NewsDetail', { articleId: article.id, article });

@@ -3,7 +3,7 @@ import { View, StyleSheet, Animated } from 'react-native';
 import { Colors, Spacing } from '../../../../theme';
 
 interface SkeletonBoxProps {
-  width: number | string;
+  width: number | `${number}%`;
   height: number;
   borderRadius?: number;
   style?: object;
@@ -28,7 +28,7 @@ const SkeletonBox: React.FC<SkeletonBoxProps> = ({
   return (
     <Animated.View
       style={[
-        { width: width as number, height, borderRadius, backgroundColor: Colors.shimmer.highlight, opacity },
+        { width, height, borderRadius, backgroundColor: Colors.shimmer.highlight, opacity },
         style,
       ]}
     />

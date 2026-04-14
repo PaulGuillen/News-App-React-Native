@@ -21,7 +21,7 @@ export const useNews = () => {
     if (!newsState.loadingMore && newsState.hasMore) {
       dispatch(fetchNews({ category: newsState.currentCategory, page: newsState.currentPage + 1 }));
     }
-  }, [dispatch, newsState]);
+  }, [dispatch, newsState.loadingMore, newsState.hasMore, newsState.currentCategory, newsState.currentPage]);
 
   const changeCategory = useCallback(
     (category: string) => {
