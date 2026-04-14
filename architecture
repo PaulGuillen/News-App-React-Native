@@ -1,0 +1,86 @@
+src/
+│
+├── app/                          # Configuración global (como Application)
+│   ├── navigation/               # Root navigation (NavHost)
+│   │   ├── AppNavigator.tsx
+│   │   ├── AuthNavigator.tsx
+│   │   └── HomeNavigator.tsx
+│   │
+│   ├── providers/                # Providers globales (DI / Theme / Store)
+│   │   ├── AppProvider.tsx
+│   │   └── QueryProvider.tsx
+│   │
+│   └── config/                   # Configuración por ambiente
+│       ├── env.ts
+│       └── constants.ts
+│
+├── features/                     # 🔥 FEATURE BASED (como módulos Android)
+│   │
+│   ├── auth/
+│   │   ├── data/
+│   │   │   ├── api/              # Retrofit → fetch/axios
+│   │   │   │   └── authApi.ts
+│   │   │   ├── repository/
+│   │   │   │   └── authRepositoryImpl.ts
+│   │   │   └── mapper/
+│   │   │       └── authMapper.ts
+│   │   │
+│   │   ├── domain/
+│   │   │   ├── model/
+│   │   │   │   └── User.ts
+│   │   │   ├── repository/
+│   │   │   │   └── AuthRepository.ts
+│   │   │   └── usecases/
+│   │   │       └── loginUseCase.ts
+│   │   │
+│   │   ├── presentation/
+│   │   │   ├── screens/
+│   │   │   │   └── LoginScreen.tsx
+│   │   │   ├── components/
+│   │   │   │   └── LoginForm.tsx
+│   │   │   ├── hooks/            # 🔥 ViewModel replacement
+│   │   │   │   └── useLogin.ts
+│   │   │   └── state/
+│   │   │       └── authState.ts
+│   │   │
+│   │   └── navigation/
+│   │       └── auth.routes.tsx
+│   │
+│   ├── home/
+│   │   ├── data/
+│   │   ├── domain/
+│   │   ├── presentation/
+│   │   └── navigation/
+│   │
+│   └── orders/                   # 🔥 como tu sistema real
+│       ├── data/
+│       ├── domain/
+│       ├── presentation/
+│       └── navigation/
+│
+├── shared/                       # 🔥 reutilizable global (como core/ui)
+│   ├── components/
+│   │   ├── Button.tsx
+│   │   ├── Input.tsx
+│   │   └── ScreenContainer.tsx   # como BaseScreen
+│   │
+│   ├── hooks/
+│   │   └── useDebounce.ts
+│   │
+│   ├── utils/
+│   │   ├── formatDate.ts
+│   │   └── logger.ts
+│   │
+│   ├── services/                 # 🔥 cross feature
+│   │   ├── storage/              # SharedPreferences → AsyncStorage
+│   │   │   └── storageService.ts
+│   │   ├── analytics/
+│   │   │   └── analyticsService.ts
+│   │   └── network/
+│   │       └── apiClient.ts      # Axios instance
+│   │
+│   └── theme/
+│       ├── colors.ts
+│       └── spacing.ts
+│
+└── index.tsx                     # entry point (como MainActivity)
